@@ -7,7 +7,7 @@ namespace minesweeper
 {
     constexpr auto POSITION_OUT_OF_RANGE_EXCEPTION = ("The position is out of range.");
 
-    MineMap::MineMap(const std::size_t width, const std::size_t height, const unsigned int mineCount)
+    MineMap::MineMap(const std::size_t width, const std::size_t height, const int mineCount)
         : m_width(width), m_height(height), m_mineCount(mineCount)
     {
         if (mineCount > width * height)
@@ -15,7 +15,7 @@ namespace minesweeper
             throw std::invalid_argument("The mine count is greater than the map size.");
         }
 
-        this->m_mineMap.resize(width, std::vector<unsigned int>(height, 0));
+        this->m_mineMap.resize(width, std::vector<int>(height, 0));
         this->m_gridStatus.resize(width, std::vector<GridStatus>(height, GridStatus::Closed));
 
         this->m_gameStatus = NotStarted;
@@ -25,7 +25,7 @@ namespace minesweeper
     {
     }
 
-    void MineMap::Click(const Position pos) throw(std::invalid_argument)
+    void MineMap::Click(const Position pos)
     {
         if (this->m_gameStatus == Over)
         {
@@ -80,7 +80,7 @@ namespace minesweeper
         }
     }
 
-    void MineMap::Chord(const Position pos) throw(std::invalid_argument)
+    void MineMap::Chord(const Position pos)
     {
         if (this->m_gameStatus == Over || this->m_gameStatus == NotStarted)
         {
@@ -113,7 +113,7 @@ namespace minesweeper
         }
     }
 
-    void MineMap::Flag(const Position pos) throw(std::invalid_argument)
+    void MineMap::Flag(const Position pos)
     {
         if (this->m_gameStatus == Over)
         {
@@ -164,7 +164,7 @@ namespace minesweeper
         return true;
     }
 
-    void MineMap::GenerateMines(const Position clickedPos) throw(std::invalid_argument)
+    void MineMap::GenerateMines(const Position clickedPos)
     {
         if (clickedPos.first >= this->m_width || clickedPos.second >= this->m_height)
         {
@@ -215,7 +215,7 @@ namespace minesweeper
         }
     }
     
-    unsigned int MineMap::GetAdjacentMineCount(const Position pos) const noexcept
+    int MineMap::GetAdjacentMineCount(const Position pos) const noexcept
     {
         auto count = 0;
 
@@ -239,7 +239,7 @@ namespace minesweeper
         return count;
     }
     
-    unsigned int MineMap::GetAdjacentFlags(const Position pos) const noexcept
+    int MineMap::GetAdjacentFlags(const Position pos) const noexcept
     {
         auto count = 0;
         

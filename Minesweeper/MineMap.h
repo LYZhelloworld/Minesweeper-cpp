@@ -14,7 +14,7 @@ namespace minesweeper
     /// <summary>
     /// The type of the value in the mine map.
     /// </summary>
-    typedef unsigned int MineMapValue;
+    typedef int MineMapValue;
 
     /// <summary>
     /// The game state.
@@ -38,7 +38,7 @@ namespace minesweeper
         /// <param name="width">The width of the map.</param>
         /// <param name="height">The height of the map.</param>
         /// <param name="mineCount">The count of mines.</param>
-        MineMap(const std::size_t width, const std::size_t height, const unsigned int mineCount) throw(std::invalid_argument);
+        MineMap(const std::size_t width, const std::size_t height, const int mineCount);
 
         /// <summary>
         /// Finalises the instance of the <see cref="MineMap"/> class.
@@ -49,19 +49,19 @@ namespace minesweeper
         /// Clicks a grid.
         /// </summary>
         /// <param name="pos">The position where to click.</param>
-        void Click(const Position pos) throw(std::invalid_argument);
+        void Click(const Position pos);
 
         /// <summary>
         /// Chords a grid.
         /// </summary>
         /// <param name="pos">The position where to chord.</param>
-        void Chord(const Position pos) throw(std::invalid_argument);
+        void Chord(const Position pos);
 
         /// <summary>
         /// Flags a grid.
         /// </summary>
         /// <param name="pos">The position where to flag.</param>
-        void Flag(const Position pos) throw(std::invalid_argument);
+        void Flag(const Position pos);
 
         /// <summary>
         /// Gets the game status.
@@ -98,7 +98,7 @@ namespace minesweeper
         /// <summary>
         /// The number of mines.
         /// </summary>
-        unsigned int m_mineCount;
+        int m_mineCount;
 
         /// <summary>
         /// The game status.
@@ -109,21 +109,21 @@ namespace minesweeper
         /// Fills the mine map with mines and hints.
         /// </summary>
         /// <param name="clickedPos">The position that the player clicks.</param>
-        void GenerateMines(const Position clickedPos) throw(std::invalid_argument);
+        void GenerateMines(const Position clickedPos);
 
         /// <summary>
         /// Gets the count of the adjacent mines.
         /// </summary>
         /// <param name="pos">The position.</param>
         /// <returns>The number of adjacent mines.</returns>
-        unsigned int GetAdjacentMineCount(const Position pos) const noexcept;
+        int GetAdjacentMineCount(const Position pos) const noexcept;
 
         /// <summary>
         /// Gets the count of the adjacent flags.
         /// </summary>
         /// <param name="pos">The position.</param>
         /// <returns>The number of adjacent flags.</returns>
-        unsigned int GetAdjacentFlags(const Position pos) const noexcept;
+        int GetAdjacentFlags(const Position pos) const noexcept;
 
         /// <summary>
         /// Checks if the position is valid.
