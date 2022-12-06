@@ -16,10 +16,9 @@ namespace minesweeper
         }
 
         this->m_mineMap.resize(width, std::vector<unsigned int>(height, 0));
-        this->m_isClicked.resize(width, std::vector<bool>(height, false));
-        this->m_isFlagged.resize(width, std::vector<bool>(height, false));
+        this->m_gridStatus.resize(width, std::vector<GridStatus>(height, GridStatus::Closed));
 
-        this->m_gameStatus = GameStatus::NotStarted;
+        this->m_gameStatus = NotStarted;
     }
 
     MineMap::~MineMap() noexcept
@@ -28,7 +27,7 @@ namespace minesweeper
 
     void MineMap::Click(const Position pos) throw(std::invalid_argument)
     {
-        if (this->m_gameStatus == GameStatus::Over)
+        if (this->m_gameStatus == Over)
         {
             return;
         }
@@ -38,31 +37,25 @@ namespace minesweeper
             throw std::invalid_argument(POSITION_OUT_OF_RANGE_EXCEPTION);
         }
 
-        if (this->m_gameStatus == GameStatus::NotStarted)
+        if (this->m_gameStatus == NotStarted)
         {
             this->GenerateMines(pos);
-            this->m_gameStatus = GameStatus::Started;
+            this->m_gameStatus = Started;
         }
 
         const auto x = pos.first;
         const auto y = pos.second;
 
-        if (this->m_isClicked[x][y])
+        if (this->m_gridStatus[x][y] != Closed)
         {
             return;
         }
 
-        if (this->m_isFlagged[x][y])
-        {
-            // Grids marked as mine cannot be clicked.
-            return;
-        }
-
-        this->m_isClicked[x][y] = true;
+        this->m_gridStatus[x][y] = Open;
 
         if (this->m_mineMap[x][y] == MineMap::MINE)
         {
-            this->m_gameStatus = GameStatus::Over;
+            this->m_gameStatus = Over;
             return;
         }
 
@@ -73,7 +66,12 @@ namespace minesweeper
             {
                 for (auto j = y - 1; j <= y + 1; ++j)
                 {
-                    if (this->IsValidPosition({ i, j }))
+                    if (i == x && j == y)
+                    {
+                        continue;
+                    }
+
+                    if (this->IsValidPosition({ i, j }) && this->m_gridStatus[i][j] == Closed)
                     {
                         this->Click({ i, j });
                     }
@@ -84,7 +82,7 @@ namespace minesweeper
 
     void MineMap::Chord(const Position pos) throw(std::invalid_argument)
     {
-        if (this->m_gameStatus == GameStatus::Over || this->m_gameStatus == GameStatus::NotStarted)
+        if (this->m_gameStatus == Over || this->m_gameStatus == NotStarted)
         {
             return;
         }
@@ -97,15 +95,8 @@ namespace minesweeper
         const auto x = pos.first;
         const auto y = pos.second;
 
-        if (!this->m_isClicked[x][y])
+        if (this->m_gridStatus[x][y] != Open)
         {
-            // Only for open grids.
-            return;
-        }
-
-        if (this->m_isFlagged[x][y])
-        {
-            // Grids marked as mine cannot be clicked.
             return;
         }
 
@@ -124,7 +115,7 @@ namespace minesweeper
 
     void MineMap::Flag(const Position pos) throw(std::invalid_argument)
     {
-        if (this->m_gameStatus == GameStatus::Over)
+        if (this->m_gameStatus == Over)
         {
             return;
         }
@@ -137,12 +128,12 @@ namespace minesweeper
         const auto x = pos.first;
         const auto y = pos.second;
 
-        if (this->m_isClicked[x][y])
+        if (this->m_gridStatus[x][y] != Closed)
         {
             return;
         }
 
-        this->m_isFlagged[x][y] = !this->m_isFlagged[x][y];
+        this->m_gridStatus[x][y] = this->m_gridStatus[x][y] == Flagged ? Closed : Flagged;
     }
 
     void MineMap::GenerateMines(const Position clickedPos) throw(std::invalid_argument)
@@ -152,7 +143,7 @@ namespace minesweeper
             throw std::invalid_argument(POSITION_OUT_OF_RANGE_EXCEPTION);
         }
 
-        this->m_gameStatus = GameStatus::Started;
+        this->m_gameStatus = Started;
 
         // Generate usable positions.
         auto usablePositions = std::vector<Position>();
@@ -236,7 +227,7 @@ namespace minesweeper
 
                 if (this->IsValidPosition({ x, y }))
                 {
-                    count += this->m_isFlagged[x][y] ? 1 : 0;
+                    count += this->m_gridStatus[x][y] == Flagged ? 1 : 0;
                 }
             }
         }

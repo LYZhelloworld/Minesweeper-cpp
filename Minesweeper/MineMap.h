@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "GameStatus.h"
+#include "GridStatus.h"
 
 namespace minesweeper
 {
@@ -68,6 +69,11 @@ namespace minesweeper
         std::vector<std::vector<MineMapValue>> m_mineMap;
 
         /// <summary>
+        /// The grid statuses.
+        /// </summary>
+        std::vector<std::vector<GridStatus>> m_gridStatus;
+
+        /// <summary>
         /// The map width.
         /// </summary>
         std::size_t m_width;
@@ -81,16 +87,6 @@ namespace minesweeper
         /// The number of mines.
         /// </summary>
         unsigned int m_mineCount;
-
-        /// <summary>
-        /// The grids that have been clicked.
-        /// </summary>
-        std::vector<std::vector<bool>> m_isClicked;
-
-        /// <summary>
-        /// The grids that have been flagged.
-        /// </summary>
-        std::vector<std::vector<bool>> m_isFlagged;
 
         /// <summary>
         /// The game status.
