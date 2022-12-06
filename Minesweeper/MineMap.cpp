@@ -136,6 +136,34 @@ namespace minesweeper
         this->m_gridStatus[x][y] = this->m_gridStatus[x][y] == Flagged ? Closed : Flagged;
     }
 
+    GameStatus MineMap::GetGameStatus() const noexcept
+    {
+        return this->m_gameStatus;
+    }
+
+    bool MineMap::IsWinning() const noexcept
+    {
+        for (auto x = 0; x < this->m_width; x++)
+        {
+            for (auto y = 0; y < this->m_height; y++)
+            {
+                if (this->m_gridStatus[x][y] == Open && this->m_mineMap[x][y] == MineMap::MINE)
+                {
+                    // Clicked grid with mine.
+                    return false;
+                }
+
+                if (this->m_gridStatus[x][y] != Open && this->m_mineMap[x][y] != MineMap::MINE)
+                {
+                    // Still got closed empty grids or wrong flags.
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     void MineMap::GenerateMines(const Position clickedPos) throw(std::invalid_argument)
     {
         if (clickedPos.first >= this->m_width || clickedPos.second >= this->m_height)

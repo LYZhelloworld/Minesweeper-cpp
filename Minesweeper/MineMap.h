@@ -62,6 +62,18 @@ namespace minesweeper
         /// </summary>
         /// <param name="pos">The position where to flag.</param>
         void Flag(const Position pos) throw(std::invalid_argument);
+
+        /// <summary>
+        /// Gets the game status.
+        /// </summary>
+        /// <returns>The game status.</returns>
+        GameStatus GetGameStatus() const noexcept;
+
+        /// <summary>
+        /// Checks if the player wins.
+        /// </summary>
+        /// <returns>Whether the player wins.</returns>
+        bool IsWinning() const noexcept;
     private:
         /// <summary>
         /// The mine map.

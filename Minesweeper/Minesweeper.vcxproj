@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameStatus.h" />
+    <ClInclude Include="GridStatus.h" />
     <ClInclude Include="MineMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
