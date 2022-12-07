@@ -2,6 +2,10 @@
 #include "CppUnitTest.h"
 #include "../Minesweeper/MineMap.h"
 #include "../Minesweeper/MineMap.cpp"
+#include "../Minesweeper/PositionOutOfRangeException.h"
+#include "../Minesweeper/PositionOutOfRangeException.cpp"
+#include "../Minesweeper/TooManyMinesException.h"
+#include "../Minesweeper/TooManyMinesException.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -26,7 +30,7 @@ namespace Minesweeper::MineMap::Test
         TEST_METHOD(TestConstructorWithException)
         {
             auto func = []() { auto mineMap = MineMap(10, 10, 101); };
-            Assert::ExpectException<std::invalid_argument>(func);
+            Assert::ExpectException<TooManyMinesException>(func);
         }
 
         TEST_METHOD(TestClick)
@@ -61,28 +65,11 @@ namespace Minesweeper::MineMap::Test
 
         TEST_METHOD(TestClickWithAdjacentSpace)
         {
-            auto mineMap = MineMap(5, 5, 1);
+            auto mineMap = MineMap(5, 5, 0);
             mineMap.Click(Position(0, 0));
 
             auto map = mineMap.GetMineMap();
             auto grids = mineMap.GetGridStatus();
-
-            for (auto x = 0; x < 5; x++)
-            {
-                for (auto y = 0; y < 5; y++)
-                {
-                    if (x == 0 && y == 0)
-                    {
-                        Assert::AreNotEqual(MineMap::MINE, map[x][y]);
-                        Assert::IsTrue(Open == grids[x][y]);
-                    }
-                    else
-                    {
-                        Assert::AreEqual(MineMap::MINE, map[x][y]);
-                        Assert::IsTrue(Closed == grids[x][y]);
-                    }
-                }
-            }
 
             Assert::IsTrue(Over == mineMap.GetGameStatus());
             Assert::IsTrue(mineMap.IsWinning());

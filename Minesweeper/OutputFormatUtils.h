@@ -20,7 +20,7 @@ namespace Minesweeper::Utils
         /// Prints game state.
         /// </summary>
         /// <param name="mineMap">The <see cref="MineMap"/> object.</param>
-        static void PrintGameState(Minesweeper::MineMap::MineMap mineMap);
+        static void PrintGameState(const Minesweeper::MineMap::MineMap mineMap);
 
         /// <summary>
         /// Gets user input.

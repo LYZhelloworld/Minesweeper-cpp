@@ -6,11 +6,15 @@
 #include "MineMap.h"
 #include "OutputFormatUtils.h"
 #include "Parser.h"
+#include "PositionOutOfRangeException.h"
+#include "TooManyMinesException.h"
 
 namespace Minesweeper::Parsers
 {
     typedef Minesweeper::MineMap::MineMap MineMap;
     typedef Minesweeper::MineMap::Position Position;
+    typedef Minesweeper::MineMap::PositionOutOfRangeException PositionOutOfRangeException;
+    typedef Minesweeper::MineMap::TooManyMinesException TooManyMinesException;
     typedef Minesweeper::Utils::OutputFormatUtils OutputFormatUtils;
 
     std::function<void(MineMap&)> Parser::ParseAndExecute(std::string input)
@@ -23,8 +27,8 @@ namespace Minesweeper::Parsers
 
         if (tokens.size() < 1)
         {
-            return [](MineMap& _) {
-                PrintIllegalArgument();
+            return [](MineMap& mineMap) {
+                OutputFormatUtils::PrintGameState(mineMap);
             };
         }
 
@@ -49,10 +53,10 @@ namespace Minesweeper::Parsers
                     OutputFormatUtils::PrintGameState(mineMap);
                 };
             }
-            catch (std::invalid_argument)
+            catch (TooManyMinesException)
             {
                 return [](MineMap& _) {
-                    PrintIllegalArgument();
+                    std::cout << "The number of mines should not exceed the size of the map." << std::endl;
                 };
             }
         }
@@ -72,7 +76,7 @@ namespace Minesweeper::Parsers
                     OutputFormatUtils::PrintGameState(mineMap);
                 };
             }
-            catch (std::invalid_argument)
+            catch (PositionOutOfRangeException)
             {
                 return [](MineMap& _) {
                     PrintIllegalArgument();
@@ -95,7 +99,7 @@ namespace Minesweeper::Parsers
                     OutputFormatUtils::PrintGameState(mineMap);
                 };
             }
-            catch (std::invalid_argument)
+            catch (PositionOutOfRangeException)
             {
                 return [](MineMap& _) {
                     PrintIllegalArgument();
@@ -118,7 +122,7 @@ namespace Minesweeper::Parsers
                     OutputFormatUtils::PrintGameState(mineMap);
                 };
             }
-            catch (std::invalid_argument)
+            catch (PositionOutOfRangeException)
             {
                 return [](MineMap& _) {
                     PrintIllegalArgument();

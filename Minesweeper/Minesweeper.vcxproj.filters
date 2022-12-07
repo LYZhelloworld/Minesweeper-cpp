@@ -45,6 +45,12 @@
     <ClCompile Include="Parser.cpp">
       <Filter>Source Files\Parsers</Filter>
     </ClCompile>
+    <ClCompile Include="PositionOutOfRangeException.cpp">
+      <Filter>Source Files\MineMap</Filter>
+    </ClCompile>
+    <ClCompile Include="TooManyMinesException.cpp">
+      <Filter>Source Files\MineMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MineMap.h">
@@ -61,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="Parser.h">
       <Filter>Header Files\Parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionOutOfRangeException.h">
+      <Filter>Header Files\MineMap</Filter>
+    </ClInclude>
+    <ClInclude Include="TooManyMinesException.h">
+      <Filter>Header Files\MineMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

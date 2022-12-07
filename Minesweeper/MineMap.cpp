@@ -1,8 +1,9 @@
 #include <algorithm>
 #include <random>
-#include <stdexcept>
 
 #include "MineMap.h"
+#include "PositionOutOfRangeException.h"
+#include "TooManyMinesException.h"
 
 namespace Minesweeper::MineMap
 {
@@ -13,7 +14,7 @@ namespace Minesweeper::MineMap
     {
         if (mineCount > width * height)
         {
-            throw std::invalid_argument("The mine count is greater than the map size.");
+            throw TooManyMinesException();
         }
 
         m_mineMap.resize(width, std::vector<int>(height, 0));
@@ -41,7 +42,7 @@ namespace Minesweeper::MineMap
 
         if (!IsValidPosition(pos))
         {
-            throw std::invalid_argument(POSITION_OUT_OF_RANGE_EXCEPTION);
+            throw PositionOutOfRangeException();
         }
 
         if (m_gameStatus == NotStarted)
@@ -101,7 +102,7 @@ namespace Minesweeper::MineMap
 
         if (!IsValidPosition(pos))
         {
-            throw std::invalid_argument(POSITION_OUT_OF_RANGE_EXCEPTION);
+            throw PositionOutOfRangeException();
         }
 
         const auto x = pos.first;
@@ -143,7 +144,7 @@ namespace Minesweeper::MineMap
 
         if (!IsValidPosition(pos))
         {
-            throw std::invalid_argument(POSITION_OUT_OF_RANGE_EXCEPTION);
+            throw PositionOutOfRangeException();
         }
 
         const auto x = pos.first;
@@ -189,7 +190,7 @@ namespace Minesweeper::MineMap
     {
         if (clickedPos.first >= m_width || clickedPos.second >= m_height)
         {
-            throw std::invalid_argument(POSITION_OUT_OF_RANGE_EXCEPTION);
+            throw PositionOutOfRangeException();
         }
 
         m_gameStatus = Started;

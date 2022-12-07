@@ -29,7 +29,7 @@ namespace Minesweeper::Utils
     /// </summary>
     const std::string MINE_MARK = "*";
 
-    void OutputFormatUtils::PrintGameState(MineMap mineMap)
+    void OutputFormatUtils::PrintGameState(const MineMap mineMap)
     {
         std::cout << "Current game state:" << std::endl << std::endl;
 
