@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "CppUnitTest.h"
 #include "../Minesweeper/MineMap.h"
 #include "../Minesweeper/MineMap.cpp"
