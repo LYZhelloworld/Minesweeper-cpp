@@ -4,7 +4,7 @@
 #include "GameStatus.h"
 #include "GridStatus.h"
 
-namespace minesweeper
+namespace Minesweeper
 {
     /// <summary>
     /// The position type. The first value is X, and the second is Y.
@@ -26,7 +26,7 @@ namespace minesweeper
         /// The grid with a mine.
         /// </summary>
         static const MineMapValue MINE = 9;
-    
+
         /// <summary>
         /// The grid with no adjacent mines.
         /// </summary>
@@ -43,7 +43,19 @@ namespace minesweeper
         /// <summary>
         /// Finalises the instance of the <see cref="MineMap"/> class.
         /// </summary>
-        ~MineMap() noexcept;
+        ~MineMap() = default;
+
+        /// <summary>
+        /// Gets mine map.
+        /// </summary>
+        /// <returns>The mine map.</returns>
+        const std::vector<std::vector<MineMapValue>> GetMineMap() const;
+
+        /// <summary>
+        /// Gets grid statuses.
+        /// </summary>
+        /// <returns>The grid statuses.</returns>
+        const std::vector<std::vector<GridStatus>> GetGridStatus() const;
 
         /// <summary>
         /// Clicks a grid.
@@ -67,7 +79,7 @@ namespace minesweeper
         /// Gets the game status.
         /// </summary>
         /// <returns>The game status.</returns>
-        GameStatus GetGameStatus() const noexcept;
+        const GameStatus GetGameStatus() const noexcept;
 
         /// <summary>
         /// Checks if the player wins.

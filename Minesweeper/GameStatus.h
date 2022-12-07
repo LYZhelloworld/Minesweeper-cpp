@@ -1,6 +1,6 @@
 #pragma once
 
-namespace minesweeper
+namespace Minesweeper
 {
     /// <summary>
     /// The game status enum.
