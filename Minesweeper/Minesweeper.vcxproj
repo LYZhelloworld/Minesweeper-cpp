@@ -128,10 +128,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="OutputFormatUtils.cpp" />
     <ClCompile Include="MineMap.cpp" />
     <ClCompile Include="Minesweeper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="OutputFormatUtils.h" />
     <ClInclude Include="GameStatus.h" />
     <ClInclude Include="GridStatus.h" />
     <ClInclude Include="MineMap.h" />
