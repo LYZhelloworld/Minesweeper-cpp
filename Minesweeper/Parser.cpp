@@ -3,10 +3,7 @@
 #include <iterator>
 #include <stdexcept>
 
-#include "ActionNew.h"
-#include "ActionChord.h"
-#include "ActionClick.h"
-#include "ActionFlag.h"
+#include "MineMap.h"
 #include "Parser.h"
 
 namespace Minesweeper::Parsers
