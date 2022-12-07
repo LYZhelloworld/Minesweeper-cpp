@@ -11,6 +11,11 @@ namespace Minesweeper::Utils
     class OutputFormatUtils
     {
     public:
+        OutputFormatUtils() = delete;
+        ~OutputFormatUtils() = delete;
+        OutputFormatUtils(OutputFormatUtils&) = delete;
+        OutputFormatUtils(OutputFormatUtils&&) = delete;
+
         /// <summary>
         /// Prints game state.
         /// </summary>

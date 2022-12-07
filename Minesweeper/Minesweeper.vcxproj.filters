@@ -28,14 +28,8 @@
     <Filter Include="Header Files\Parsers">
       <UniqueIdentifier>{f3e02759-e481-446b-a084-2fac6c1f18e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Parsers\Actions">
-      <UniqueIdentifier>{e26069f0-510f-48e4-8c65-c189a4c423aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Parsers">
       <UniqueIdentifier>{add8a36f-d8b2-4e5b-9b54-922eb3126458}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Parsers\Actions">
-      <UniqueIdentifier>{cf830eb3-45b6-45c1-9b5b-ec0c6ebb3e8e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,9 +44,6 @@
     </ClCompile>
     <ClCompile Include="Parser.cpp">
       <Filter>Source Files\Parsers</Filter>
-    </ClCompile>
-    <ClCompile Include="Action.cpp">
-      <Filter>Source Files\Parsers\Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,9 +61,6 @@
     </ClInclude>
     <ClInclude Include="Parser.h">
       <Filter>Header Files\Parsers</Filter>
-    </ClInclude>
-    <ClInclude Include="Action.h">
-      <Filter>Header Files\Parsers\Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

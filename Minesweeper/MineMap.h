@@ -41,11 +41,6 @@ namespace Minesweeper::MineMap
         MineMap(const std::size_t width, const std::size_t height, const int mineCount);
 
         /// <summary>
-        /// Finalises the instance of the <see cref="MineMap"/> class.
-        /// </summary>
-        ~MineMap() = default;
-
-        /// <summary>
         /// Gets mine map.
         /// </summary>
         /// <returns>The mine map.</returns>
