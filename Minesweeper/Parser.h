@@ -29,7 +29,7 @@ namespace Minesweeper::Parsers
         /// <param name="str">The <see cref="std::string"/> to split.</param>
         /// <param name="delim">The delimiter.</param>
         /// <returns>The <see cref="std::vector"/> of <see cref="std::string"/>s.</returns>
-        static std::vector<std::string> Split(std::string str, char delim);
+        static std::vector<std::string> Split(const std::string str, const char delim);
 
         /// <summary>
         /// Prints "illegal argument" error.

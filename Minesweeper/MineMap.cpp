@@ -115,11 +115,20 @@ namespace Minesweeper::MineMap
         if (GetAdjacentFlags(pos) == m_mineMap[x][y])
         {
             // Open adjacent grids.
-            for (auto i = 0; i < m_width; i++)
+            for (auto i = x - 1; i <= x + 1; i++)
             {
-                for (auto j = 0; j < m_height; j++)
+                for (auto j = y - 1; j <= y + 1; j++)
                 {
-                    Click({ i, j });
+                    if (i == x && j == y)
+                    {
+                        continue;
+                    }
+
+                    auto pos = Position(i, j);
+                    if (IsValidPosition(pos))
+                    {
+                        Click({ i, j });
+                    }
                 }
             }
         }

@@ -14,13 +14,13 @@ int main()
     std::cout << "===== MINESWEEPER =====" << std::endl;
 
     MineMap game = MineMap(10, 10, 10);
+    OutputFormatUtils::PrintGameState(game);
     
     for (;;)
     {
         auto input = OutputFormatUtils::GetUserInput();
         auto action = Parser::ParseAndExecute(input);
         action(game);
-        OutputFormatUtils::PrintGameState(game);
 
         if (game.GetGameStatus() == GameStatus::Over)
         {

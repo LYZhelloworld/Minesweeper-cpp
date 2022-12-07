@@ -40,13 +40,14 @@ namespace Minesweeper::Utils
         const auto width = map.size();
         const auto height = map[0].size();
 
-        std::cout << "  ";
+        std::cout << " Y";
         for (auto y = 0; y < height; y++)
         {
             // Only print the last digit.
             std::cout << (y % 10);
         }
-        std::cout << std::endl << std::endl;
+        std::cout << std::endl;
+        std::cout << "X" << std::endl;
 
         for (auto x = 0; x < width; x++)
         {

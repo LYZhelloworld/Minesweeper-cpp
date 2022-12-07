@@ -4,12 +4,14 @@
 #include <stdexcept>
 
 #include "MineMap.h"
+#include "OutputFormatUtils.h"
 #include "Parser.h"
 
 namespace Minesweeper::Parsers
 {
     typedef Minesweeper::MineMap::MineMap MineMap;
     typedef Minesweeper::MineMap::Position Position;
+    typedef Minesweeper::Utils::OutputFormatUtils OutputFormatUtils;
 
     std::function<void(MineMap&)> Parser::ParseAndExecute(std::string input)
     {
@@ -42,8 +44,9 @@ namespace Minesweeper::Parsers
 
             try
             {
-                return [&tokens](MineMap& mineMap) {
+                return [tokens = std::move(tokens)](MineMap& mineMap) {
                     mineMap = MineMap(std::stoi(tokens[1]), std::stoi(tokens[2]), std::stoi(tokens[3]));
+                    OutputFormatUtils::PrintGameState(mineMap);
                 };
             }
             catch (std::invalid_argument)
@@ -64,8 +67,9 @@ namespace Minesweeper::Parsers
 
             try
             {
-                return [&tokens](MineMap& mineMap) {
+                return [tokens = std::move(tokens)](MineMap& mineMap) {
                     mineMap.Click(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
+                    OutputFormatUtils::PrintGameState(mineMap);
                 };
             }
             catch (std::invalid_argument)
@@ -86,8 +90,9 @@ namespace Minesweeper::Parsers
 
             try
             {
-                return [&tokens](MineMap& mineMap) {
+                return [tokens = std::move(tokens)](MineMap& mineMap) {
                     mineMap.Flag(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
+                    OutputFormatUtils::PrintGameState(mineMap);
                 };
             }
             catch (std::invalid_argument)
@@ -97,7 +102,7 @@ namespace Minesweeper::Parsers
                 };
             }
         }
-        else if (cmd == "chord" || cmd == "h")
+        else if (cmd == "chord" || cmd == "x")
         {
             if (tokens.size() != 3)
             {
@@ -108,8 +113,9 @@ namespace Minesweeper::Parsers
 
             try
             {
-                return [&tokens](MineMap& mineMap) {
+                return [tokens = std::move(tokens)](MineMap& mineMap) {
                     mineMap.Chord(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
+                    OutputFormatUtils::PrintGameState(mineMap);
                 };
             }
             catch (std::invalid_argument)
@@ -124,7 +130,7 @@ namespace Minesweeper::Parsers
             return [](MineMap& _) {
                 std::cout << "{new|n} width height : Start new game." << std::endl
                     << "{click|c} x y : Click a grid." << std::endl
-                    << "{chord|h} x y : Check if adjacent square can be opened automatically." << std::endl
+                    << "{chord|x} x y : Check if adjacent square can be opened automatically." << std::endl
                     << "{flag|f} x y : Mark a square as mine with flag (X)." << std::endl
                     << "{help|h|?} : Show this help." << std::endl
                     << "{exit|quit|q} : Exit.";
@@ -144,9 +150,9 @@ namespace Minesweeper::Parsers
         }
     }
 
-    std::vector<std::string> Parser::Split(std::string str, char delim)
+    std::vector<std::string> Parser::Split(const std::string str, const char delim)
     {
-        std::vector<std::string> result;
+        std::vector<std::string> result{ std::string()};
         std::for_each(str.begin(), str.end(), [&result, &delim](char c)
             {
                 if (c == delim)
@@ -155,7 +161,7 @@ namespace Minesweeper::Parsers
                 }
                 else
                 {
-                    result.back().push_back(c);
+                    result[result.size() - 1] = result[result.size() - 1] + c;
                 }
             });
         return result;
