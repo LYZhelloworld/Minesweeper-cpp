@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Minesweeper
+namespace Minesweeper::MineMap
 {
     /// <summary>
     /// The game status enum.

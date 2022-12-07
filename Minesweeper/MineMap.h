@@ -4,7 +4,7 @@
 #include "GameStatus.h"
 #include "GridStatus.h"
 
-namespace Minesweeper
+namespace Minesweeper::MineMap
 {
     /// <summary>
     /// The position type. The first value is X, and the second is Y.

@@ -5,14 +5,17 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace Minesweeper::Test
+namespace Minesweeper::MineMap::Test
 {
+    typedef Minesweeper::MineMap::Position Position;
+    typedef Minesweeper::MineMap::MineMap MineMap;
+
     TEST_CLASS(MineMapTest)
     {
     public:
         TEST_METHOD(TestConstructor)
         {
-            auto mineMap = Minesweeper::MineMap(10, 10, 10);
+            auto mineMap = MineMap(10, 10, 10);
             
             auto map = mineMap.GetMineMap();
             Assert::AreEqual((std::size_t)10, map.size());
@@ -22,17 +25,17 @@ namespace Minesweeper::Test
 
         TEST_METHOD(TestConstructorWithException)
         {
-            auto func = []() { auto mineMap = Minesweeper::MineMap(10, 10, 101); };
+            auto func = []() { auto mineMap = MineMap(10, 10, 101); };
             Assert::ExpectException<std::invalid_argument>(func);
         }
 
         TEST_METHOD(TestClick)
         {
-            auto mineMap = Minesweeper::MineMap(5, 5, 10);
-            mineMap.Click(Minesweeper::Position(0, 0));
+            auto mineMap = MineMap(5, 5, 10);
+            mineMap.Click(Position(0, 0));
 
             auto map = mineMap.GetMineMap();
-            Assert::AreNotEqual(Minesweeper::MineMap::MINE, map[0][0]);
+            Assert::AreNotEqual(MineMap::MINE, map[0][0]);
 
             auto grids = mineMap.GetGridStatus();
             Assert::IsTrue(Open == grids[0][0]);
@@ -43,11 +46,11 @@ namespace Minesweeper::Test
 
         TEST_METHOD(TestClickWithOneSpace)
         {
-            auto mineMap = Minesweeper::MineMap(5, 5, 24);
-            mineMap.Click(Minesweeper::Position(0, 0));
+            auto mineMap = MineMap(5, 5, 24);
+            mineMap.Click(Position(0, 0));
             
             auto map = mineMap.GetMineMap();
-            Assert::AreNotEqual(Minesweeper::MineMap::MINE, map[0][0]);
+            Assert::AreNotEqual(MineMap::MINE, map[0][0]);
             
             auto grids = mineMap.GetGridStatus();
             Assert::IsTrue(Open == grids[0][0]);
@@ -58,8 +61,8 @@ namespace Minesweeper::Test
 
         TEST_METHOD(TestClickWithAdjacentSpace)
         {
-            auto mineMap = Minesweeper::MineMap(5, 5, 1);
-            mineMap.Click(Minesweeper::Position(0, 0));
+            auto mineMap = MineMap(5, 5, 1);
+            mineMap.Click(Position(0, 0));
 
             auto map = mineMap.GetMineMap();
             auto grids = mineMap.GetGridStatus();
@@ -70,12 +73,12 @@ namespace Minesweeper::Test
                 {
                     if (x == 0 && y == 0)
                     {
-                        Assert::AreNotEqual(Minesweeper::MineMap::MINE, map[x][y]);
+                        Assert::AreNotEqual(MineMap::MINE, map[x][y]);
                         Assert::IsTrue(Open == grids[x][y]);
                     }
                     else
                     {
-                        Assert::AreEqual(Minesweeper::MineMap::MINE, map[x][y]);
+                        Assert::AreEqual(MineMap::MINE, map[x][y]);
                         Assert::IsTrue(Closed == grids[x][y]);
                     }
                 }

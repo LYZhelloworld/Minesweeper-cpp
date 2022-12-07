@@ -4,7 +4,7 @@
 
 #include "MineMap.h"
 
-namespace Minesweeper
+namespace Minesweeper::MineMap
 {
     constexpr auto POSITION_OUT_OF_RANGE_EXCEPTION = ("The position is out of range.");
 

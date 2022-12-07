@@ -128,15 +128,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
     <ClCompile Include="OutputFormatUtils.cpp" />
     <ClCompile Include="MineMap.cpp" />
     <ClCompile Include="Minesweeper.cpp" />
+    <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
     <ClInclude Include="OutputFormatUtils.h" />
     <ClInclude Include="GameStatus.h" />
     <ClInclude Include="GridStatus.h" />
     <ClInclude Include="MineMap.h" />
+    <ClInclude Include="Parser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

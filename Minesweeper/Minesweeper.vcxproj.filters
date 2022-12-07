@@ -13,30 +13,66 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\MineMap">
+      <UniqueIdentifier>{ae445b1b-4c66-41ca-8bc9-fc9f1e317568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MineMap">
+      <UniqueIdentifier>{edd456b8-56a4-4ad1-ac0a-6f03faf4d1e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{c3ff423e-b0c4-4686-b4a6-594758fe85b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{937f0357-ebfd-417e-9915-a4054205b310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Parsers">
+      <UniqueIdentifier>{f3e02759-e481-446b-a084-2fac6c1f18e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Parsers\Actions">
+      <UniqueIdentifier>{e26069f0-510f-48e4-8c65-c189a4c423aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parsers">
+      <UniqueIdentifier>{add8a36f-d8b2-4e5b-9b54-922eb3126458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parsers\Actions">
+      <UniqueIdentifier>{cf830eb3-45b6-45c1-9b5b-ec0c6ebb3e8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minesweeper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MineMap.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MineMap</Filter>
     </ClCompile>
     <ClCompile Include="OutputFormatUtils.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser.cpp">
+      <Filter>Source Files\Parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>Source Files\Parsers\Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MineMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GridStatus.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MineMap</Filter>
     </ClInclude>
     <ClInclude Include="OutputFormatUtils.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStatus.h">
+      <Filter>Header Files\MineMap</Filter>
+    </ClInclude>
+    <ClInclude Include="GridStatus.h">
+      <Filter>Header Files\MineMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Header Files\Parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Header Files\Parsers\Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

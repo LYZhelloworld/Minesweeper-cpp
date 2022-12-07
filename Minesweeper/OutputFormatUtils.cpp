@@ -4,8 +4,11 @@
 
 #include "OutputFormatUtils.h"
 
-namespace Minesweeper
+namespace Minesweeper::Utils
 {
+    typedef Minesweeper::MineMap::MineMap MineMap;
+    typedef Minesweeper::MineMap::GridStatus GridStatus;
+
     /// <summary>
     /// The character of a closed grid.
     /// </summary>
@@ -55,11 +58,11 @@ namespace Minesweeper
             {
                 switch (gridStatus[x][y])
                 {
-                case Closed:
+                case GridStatus::Closed:
                     std::cout << CLOSED_GRID_MARK;
                     break;
 
-                case Open:
+                case GridStatus::Open:
                     switch (map[x][y])
                     {
                     case MineMap::EMPTY:
@@ -75,7 +78,7 @@ namespace Minesweeper
 
                     break;
 
-                case Flagged:
+                case GridStatus::Flagged:
                     std::cout << FLAG_MARK;
                     break;
                 }

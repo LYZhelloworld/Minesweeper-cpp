@@ -3,7 +3,7 @@
 
 #include "MineMap.h"
 
-namespace Minesweeper
+namespace Minesweeper::Utils
 {
     /// <summary>
     /// The utility class of output formats.
@@ -15,7 +15,7 @@ namespace Minesweeper
         /// Prints game state.
         /// </summary>
         /// <param name="mineMap">The <see cref="MineMap"/> object.</param>
-        static void PrintGameState(MineMap mineMap);
+        static void PrintGameState(Minesweeper::MineMap::MineMap mineMap);
 
         /// <summary>
         /// Gets user input.

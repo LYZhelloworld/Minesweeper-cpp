@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Minesweeper
+namespace Minesweeper::MineMap
 {
     /// <summary>
     /// The grid status.
