@@ -42,92 +42,56 @@ namespace Minesweeper::Parsers
             if (tokens.size() != 4)
             {
                 return [](MineMap& _) {
-                    PrintIllegalArgument();
+                    throw std::invalid_argument("Invalid argument.");
                 };
             }
 
-            try
-            {
-                return [tokens = std::move(tokens)](MineMap& mineMap) {
-                    mineMap = MineMap(std::stoi(tokens[1]), std::stoi(tokens[2]), std::stoi(tokens[3]));
-                    OutputFormatUtils::PrintGameState(mineMap);
-                };
-            }
-            catch (TooManyMinesException)
-            {
-                return [](MineMap& _) {
-                    std::cout << "The number of mines should not exceed the size of the map." << std::endl;
-                };
-            }
+            return [tokens = std::move(tokens)](MineMap& mineMap) {
+                mineMap = MineMap(std::stoi(tokens[1]), std::stoi(tokens[2]), std::stoi(tokens[3]));
+                OutputFormatUtils::PrintGameState(mineMap);
+            };
         }
         else if (cmd == "click" || cmd == "c")
         {
             if (tokens.size() != 3)
             {
                 return [](MineMap& _) {
-                    PrintIllegalArgument();
+                    throw std::invalid_argument("Invalid argument.");
                 };
             }
 
-            try
-            {
-                return [tokens = std::move(tokens)](MineMap& mineMap) {
-                    mineMap.Click(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
-                    OutputFormatUtils::PrintGameState(mineMap);
-                };
-            }
-            catch (PositionOutOfRangeException)
-            {
-                return [](MineMap& _) {
-                    PrintIllegalArgument();
-                };
-            }
+            return [tokens = std::move(tokens)](MineMap& mineMap) {
+                mineMap.Click(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
+                OutputFormatUtils::PrintGameState(mineMap);
+            };
         }
         else if (cmd == "flag" || cmd == "f")
         {
             if (tokens.size() != 3)
             {
                 return [](MineMap& _) {
-                    PrintIllegalArgument();
+                    throw std::invalid_argument("Invalid argument.");
                 };
             }
 
-            try
-            {
-                return [tokens = std::move(tokens)](MineMap& mineMap) {
-                    mineMap.Flag(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
-                    OutputFormatUtils::PrintGameState(mineMap);
-                };
-            }
-            catch (PositionOutOfRangeException)
-            {
-                return [](MineMap& _) {
-                    PrintIllegalArgument();
-                };
-            }
+            return [tokens = std::move(tokens)](MineMap& mineMap) {
+                mineMap.Flag(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
+                OutputFormatUtils::PrintGameState(mineMap);
+            };
         }
         else if (cmd == "chord" || cmd == "x")
         {
             if (tokens.size() != 3)
             {
                 return [](MineMap& _) {
-                    PrintIllegalArgument();
+                    throw std::invalid_argument("Invalid argument.");
                 };
             }
 
-            try
-            {
-                return [tokens = std::move(tokens)](MineMap& mineMap) {
-                    mineMap.Chord(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
-                    OutputFormatUtils::PrintGameState(mineMap);
-                };
-            }
-            catch (PositionOutOfRangeException)
-            {
-                return [](MineMap& _) {
-                    PrintIllegalArgument();
-                };
-            }
+            return [tokens = std::move(tokens)](MineMap& mineMap) {
+                mineMap.Chord(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
+                OutputFormatUtils::PrintGameState(mineMap);
+            };
         }
         else if (cmd == "help" || cmd == "h" || cmd == "?")
         {
@@ -149,7 +113,7 @@ namespace Minesweeper::Parsers
         else
         {
             return [](MineMap& _) {
-                PrintIllegalArgument();
+                throw std::invalid_argument("Invalid argument.");
             };
         }
     }
@@ -169,10 +133,5 @@ namespace Minesweeper::Parsers
                 }
             });
         return result;
-    }
-
-    void Parser::PrintIllegalArgument()
-    {
-        std::cout << "Illegal argument." << std::endl;
     }
 }

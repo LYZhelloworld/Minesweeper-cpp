@@ -1,8 +1,11 @@
 #include <iostream>
+#include <stdexcept>
 
 #include "MineMap.h"
 #include "OutputFormatUtils.h"
 #include "Parser.h"
+#include "PositionOutOfRangeException.h"
+#include "TooManyMinesException.h"
 
 typedef Minesweeper::MineMap::MineMap MineMap;
 typedef Minesweeper::MineMap::GameStatus GameStatus;
@@ -20,18 +23,37 @@ int main()
     {
         auto input = OutputFormatUtils::GetUserInput();
         auto action = Parser::ParseAndExecute(input);
-        action(game);
-
-        if (game.GetGameStatus() == GameStatus::Over)
+        try
         {
-            if (game.IsWinning())
+            action(game);
+
+            if (game.GetGameStatus() == GameStatus::Over)
             {
-                std::cout << "===== YOU WIN =====" << std::endl;
+                if (game.IsWinning())
+                {
+                    std::cout << "===== YOU WIN =====" << std::endl;
+                }
+                else
+                {
+                    std::cout << "===== YOU LOSE =====" << std::endl;
+                }
             }
-            else
-            {
-                std::cout << "===== YOU LOSE =====" << std::endl;
-            }
+        }
+        catch (Minesweeper::MineMap::PositionOutOfRangeException& e)
+        {
+            std::cout << e.what() << std::endl;
+        }
+        catch (Minesweeper::MineMap::TooManyMinesException e)
+        {
+            std::cout << e.what() << std::endl;
+        }
+        catch (std::invalid_argument&)
+        {
+            std::cout << "Invalid argument." << std::endl;
+        }
+        catch (std::out_of_range&)
+        {
+            std::cout << "Out of range." << std::endl;
         }
     }
 }

@@ -30,10 +30,5 @@ namespace Minesweeper::Parsers
         /// <param name="delim">The delimiter.</param>
         /// <returns>The <see cref="std::vector"/> of <see cref="std::string"/>s.</returns>
         static std::vector<std::string> Split(const std::string str, const char delim);
-
-        /// <summary>
-        /// Prints "illegal argument" error.
-        /// </summary>
-        static void PrintIllegalArgument();
     };
 }
