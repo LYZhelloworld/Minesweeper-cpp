@@ -4,13 +4,13 @@
 #include "MineMap.h"
 #include "OutputFormatUtils.h"
 #include "Parser.h"
-#include "PositionOutOfRangeException.h"
-#include "TooManyMinesException.h"
 
 typedef Minesweeper::MineMap::MineMap MineMap;
 typedef Minesweeper::MineMap::GameStatus GameStatus;
 typedef Minesweeper::Parsers::Parser Parser;
+typedef Minesweeper::MineMap::PositionOutOfRangeException PositionOutOfRangeException;
 typedef Minesweeper::Utils::OutputFormatUtils OutputFormatUtils;
+typedef Minesweeper::MineMap::TooManyMinesException TooManyMinesException;
 
 int main()
 {
@@ -39,11 +39,11 @@ int main()
                 }
             }
         }
-        catch (Minesweeper::MineMap::PositionOutOfRangeException& e)
+        catch (PositionOutOfRangeException& e)
         {
             std::cout << e.what() << std::endl;
         }
-        catch (Minesweeper::MineMap::TooManyMinesException e)
+        catch (TooManyMinesException e)
         {
             std::cout << e.what() << std::endl;
         }

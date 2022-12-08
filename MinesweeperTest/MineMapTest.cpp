@@ -1,10 +1,6 @@
 #include "CppUnitTest.h"
 #include "../Minesweeper/MineMap.h"
 #include "../Minesweeper/MineMap.cpp"
-#include "../Minesweeper/PositionOutOfRangeException.h"
-#include "../Minesweeper/PositionOutOfRangeException.cpp"
-#include "../Minesweeper/TooManyMinesException.h"
-#include "../Minesweeper/TooManyMinesException.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

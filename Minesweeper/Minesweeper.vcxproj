@@ -105,8 +105,6 @@
     <ClCompile Include="MineMap.cpp" />
     <ClCompile Include="Minesweeper.cpp" />
     <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="PositionOutOfRangeException.cpp" />
-    <ClCompile Include="TooManyMinesException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OutputFormatUtils.h" />
@@ -114,8 +112,6 @@
     <ClInclude Include="GridStatus.h" />
     <ClInclude Include="MineMap.h" />
     <ClInclude Include="Parser.h" />
-    <ClInclude Include="PositionOutOfRangeException.h" />
-    <ClInclude Include="TooManyMinesException.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

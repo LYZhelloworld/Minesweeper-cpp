@@ -139,4 +139,30 @@ namespace Minesweeper::MineMap
         /// <returns>Whether the position is valid.</returns>
         bool IsValidPosition(const Position pos) const noexcept;
     };
+
+    /// <summary>
+    /// The exception thrown when the mine count is greater than the map size.
+    /// </summary>
+    class TooManyMinesException :
+        public std::exception
+    {
+    public:
+        /// <summary>
+        /// Initialises a new instance of the <see cref="TooManyMinesException"/> class.
+        /// </summary>
+        TooManyMinesException() noexcept;
+    };
+
+    /// <summary>
+    /// The exception thrown when the position is out of the map.
+    /// </summary>
+    class PositionOutOfRangeException :
+        public std::exception
+    {
+    public:
+        /// <summary>
+        /// Initialises a new instance of the <see cref="PositionOutOfRangeException"/> class.
+        /// </summary>
+        PositionOutOfRangeException() noexcept;
+    };
 }

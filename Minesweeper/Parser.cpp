@@ -1,13 +1,10 @@
 #include <algorithm>
 #include <iostream>
-#include <iterator>
 #include <stdexcept>
 
 #include "MineMap.h"
 #include "OutputFormatUtils.h"
 #include "Parser.h"
-#include "PositionOutOfRangeException.h"
-#include "TooManyMinesException.h"
 
 namespace Minesweeper::Parsers
 {
@@ -17,9 +14,32 @@ namespace Minesweeper::Parsers
     typedef Minesweeper::MineMap::TooManyMinesException TooManyMinesException;
     typedef Minesweeper::Utils::OutputFormatUtils OutputFormatUtils;
 
+    /// <summary>
+    /// Splits a <see cref="std::string"/> into a <see cref="std::vector"/> of <see cref="std::string"/>s.
+    /// </summary>
+    /// <param name="str">The <see cref="std::string"/> to split.</param>
+    /// <param name="delim">The delimiter.</param>
+    /// <returns>The <see cref="std::vector"/> of <see cref="std::string"/>s.</returns>
+    std::vector<std::string> split(const std::string str, const char delim)
+    {
+        std::vector<std::string> result{ std::string() };
+        std::for_each(str.begin(), str.end(), [&result, &delim](char c)
+            {
+                if (c == delim)
+                {
+                    result.push_back(std::string());
+                }
+                else
+                {
+                    result[result.size() - 1] = result[result.size() - 1] + c;
+                }
+            });
+        return result;
+    }
+
     std::function<void(MineMap&)> Parser::ParseAndExecute(std::string input)
     {
-        std::vector<std::string> tokensWithEmpty = Split(input, ' ');
+        std::vector<std::string> tokensWithEmpty = split(input, ' ');
         std::vector<std::string> tokens;
         std::copy_if(tokensWithEmpty.begin(), tokensWithEmpty.end(), std::back_inserter(tokens), [](std::string s) {
             return !s.empty();
@@ -116,22 +136,5 @@ namespace Minesweeper::Parsers
                 throw std::invalid_argument("Invalid argument.");
             };
         }
-    }
-
-    std::vector<std::string> Parser::Split(const std::string str, const char delim)
-    {
-        std::vector<std::string> result{ std::string()};
-        std::for_each(str.begin(), str.end(), [&result, &delim](char c)
-            {
-                if (c == delim)
-                {
-                    result.push_back(std::string());
-                }
-                else
-                {
-                    result[result.size() - 1] = result[result.size() - 1] + c;
-                }
-            });
-        return result;
     }
 }

@@ -3,8 +3,6 @@
 #include <ranges>
 
 #include "MineMap.h"
-#include "PositionOutOfRangeException.h"
-#include "TooManyMinesException.h"
 
 namespace Minesweeper::MineMap
 {
@@ -285,5 +283,15 @@ namespace Minesweeper::MineMap
     bool MineMap::IsValidPosition(const Position pos) const noexcept
     {
         return pos.first >= 0 && pos.first < m_width&& pos.second >= 0 && pos.second < m_height;
+    }
+
+    PositionOutOfRangeException::PositionOutOfRangeException() noexcept
+        : std::exception("The position is out of range.")
+    {
+    }
+
+    TooManyMinesException::TooManyMinesException() noexcept
+        : std::exception("The mine count is greater than the map size.")
+    {
     }
 }
