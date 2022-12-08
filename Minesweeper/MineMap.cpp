@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <random>
+#include <ranges>
 
 #include "MineMap.h"
 #include "PositionOutOfRangeException.h"
@@ -196,7 +197,7 @@ namespace Minesweeper::MineMap
         m_gameStatus = Started;
 
         // Generate usable positions.
-        auto usablePositions = std::vector<Position>();
+        auto positions = std::vector<Position>();
         for (auto x = 0; x < m_width; x++)
         {
             for (auto y = 0; y < m_height; y++)
@@ -207,36 +208,32 @@ namespace Minesweeper::MineMap
                     continue;
                 }
 
-                usablePositions.push_back(Position(x, y));
+                positions.push_back(Position(x, y));
             }
         }
 
         // Shuffle all usable positions.
-        std::shuffle(usablePositions.begin(), usablePositions.end(), std::default_random_engine(std::random_device()()));
+        std::ranges::shuffle(positions, std::mt19937(std::random_device()()));
 
         // Pick the positions we need.
-        for (auto i = 0; i < m_mineCount; i++)
-        {
-            auto& pos = usablePositions[i];
+        std::ranges::for_each(positions | std::views::take(m_mineCount), [&](const Position& pos) {
             m_mineMap[pos.first][pos.second] = MineMap::MINE;
-        }
+            });
 
         // Generate mine hints.
-        for (auto x = 0; x < m_width; x++)
-        {
-            for (auto y = 0; y < m_height; y++)
-            {
+        std::ranges::for_each(std::views::iota(0, (int)m_width), [&](int x) {
+            std::ranges::for_each(std::views::iota(0, (int)m_height), [&](int y) {
                 if (m_mineMap[x][y] == MineMap::MINE)
                 {
                     // This is a mine.
-                    continue;
+                    return;
                 }
 
-                m_mineMap[x][y] = GetAdjacentMineCount({ x, y });
-            }
-        }
+        m_mineMap[x][y] = GetAdjacentMineCount({ x, y });
+                });
+            });
     }
-    
+
     int MineMap::GetAdjacentMineCount(const Position pos) const noexcept
     {
         auto count = 0;
@@ -260,11 +257,11 @@ namespace Minesweeper::MineMap
 
         return count;
     }
-    
+
     int MineMap::GetAdjacentFlags(const Position pos) const noexcept
     {
         auto count = 0;
-        
+
         for (auto x = pos.first - 1; x <= pos.first + 1; x++)
         {
             for (auto y = pos.second - 1; y <= pos.second + 1; y++)
@@ -287,6 +284,6 @@ namespace Minesweeper::MineMap
 
     bool MineMap::IsValidPosition(const Position pos) const noexcept
     {
-        return pos.first >= 0 && pos.first < m_width && pos.second >= 0 && pos.second < m_height;
+        return pos.first >= 0 && pos.first < m_width&& pos.second >= 0 && pos.second < m_height;
     }
 }
