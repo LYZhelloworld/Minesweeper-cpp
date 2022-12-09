@@ -104,12 +104,14 @@ namespace Minesweeper::Parsers
         else if (iequals(cmd, "help") || iequals(cmd, "h") || iequals(cmd, "?"))
         {
             return [](auto& _) {
-                std::cout << "{new|n} width height : Start new game." << std::endl
-                    << "{click|c} x y : Click a grid." << std::endl
-                    << "{chord|x} x y : Check if adjacent square can be opened automatically." << std::endl
-                    << "{flag|f} x y : Mark a square as mine with flag (X)." << std::endl
-                    << "{help|h|?} : Show this help." << std::endl
-                    << "{exit|quit|q} : Exit.";
+                std::cout << "{new|n} width height : Starts new game." << std::endl
+                    << "{click|c} x y : Clicks a grid." << std::endl
+                    << "{chord|x} x y : Checks if adjacent square can be opened automatically." << std::endl
+                    << "{flag|f} x y : Marks a square as mine with flag (X)." << std::endl
+                    << "{help|h|?} : Shows this help." << std::endl
+                    << "{exit|quit|q} : Exits." << std::endl
+                    << std::endl
+                    << "Hints (1~8) will be displayed in the map. An 'X' means a flag. A '0' means a closed grid." << std::endl;
             };
         }
         else if (iequals(cmd, "exit") || iequals(cmd, "quit") || iequals(cmd, "q"))
