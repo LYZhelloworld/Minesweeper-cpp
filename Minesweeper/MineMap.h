@@ -44,43 +44,43 @@ namespace Minesweeper::MineMap
         /// Gets mine map.
         /// </summary>
         /// <returns>The mine map.</returns>
-        const std::vector<std::vector<MineMapValue>> GetMineMap() const;
+        const std::vector<std::vector<MineMapValue>> get_minemap() const;
 
         /// <summary>
         /// Gets grid statuses.
         /// </summary>
         /// <returns>The grid statuses.</returns>
-        const std::vector<std::vector<GridStatus>> GetGridStatus() const;
+        const std::vector<std::vector<GridStatus>> get_grid_status() const;
 
         /// <summary>
         /// Clicks a grid.
         /// </summary>
         /// <param name="pos">The position where to click.</param>
-        void Click(const Position pos);
+        void click(const Position pos);
 
         /// <summary>
         /// Chords a grid.
         /// </summary>
         /// <param name="pos">The position where to chord.</param>
-        void Chord(const Position pos);
+        void chord(const Position pos);
 
         /// <summary>
         /// Flags a grid.
         /// </summary>
         /// <param name="pos">The position where to flag.</param>
-        void Flag(const Position pos);
+        void flag(const Position pos);
 
         /// <summary>
         /// Gets the game status.
         /// </summary>
         /// <returns>The game status.</returns>
-        const GameStatus GetGameStatus() const noexcept;
+        const GameStatus get_game_status() const noexcept;
 
         /// <summary>
         /// Checks if the player wins.
         /// </summary>
         /// <returns>Whether the player wins.</returns>
-        bool IsWinning() const noexcept;
+        bool is_winning() const noexcept;
     private:
         /// <summary>
         /// The mine map.
@@ -116,28 +116,28 @@ namespace Minesweeper::MineMap
         /// Fills the mine map with mines and hints.
         /// </summary>
         /// <param name="clickedPos">The position that the player clicks.</param>
-        void GenerateMines(const Position clickedPos);
+        void generate_mines(const Position clickedPos);
 
         /// <summary>
         /// Gets the count of the adjacent mines.
         /// </summary>
         /// <param name="pos">The position.</param>
         /// <returns>The number of adjacent mines.</returns>
-        int GetAdjacentMineCount(const Position pos) const noexcept;
+        int get_adjacent_mine_count(const Position pos) const noexcept;
 
         /// <summary>
         /// Gets the count of the adjacent flags.
         /// </summary>
         /// <param name="pos">The position.</param>
         /// <returns>The number of adjacent flags.</returns>
-        int GetAdjacentFlags(const Position pos) const noexcept;
+        int get_adjacent_flags(const Position pos) const noexcept;
 
         /// <summary>
         /// Checks if the position is valid.
         /// </summary>
         /// <param name="pos">The position.</param>
         /// <returns>Whether the position is valid.</returns>
-        bool IsValidPosition(const Position pos) const noexcept;
+        bool is_valid_position(const Position pos) const noexcept;
     };
 
     /// <summary>
@@ -150,7 +150,9 @@ namespace Minesweeper::MineMap
         /// <summary>
         /// Initialises a new instance of the <see cref="TooManyMinesException"/> class.
         /// </summary>
-        TooManyMinesException() noexcept;
+        TooManyMinesException() noexcept
+            : std::exception("The mine count is greater than the map size.")
+        {}
     };
 
     /// <summary>
@@ -163,6 +165,8 @@ namespace Minesweeper::MineMap
         /// <summary>
         /// Initialises a new instance of the <see cref="PositionOutOfRangeException"/> class.
         /// </summary>
-        PositionOutOfRangeException() noexcept;
+        PositionOutOfRangeException() noexcept
+            : std::exception("The position is out of range.")
+        {}
     };
 }

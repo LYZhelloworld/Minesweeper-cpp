@@ -10,16 +10,16 @@ namespace Minesweeper::MineMap
         /// <summary>
         /// The game has not started.
         /// </summary>
-        NotStarted,
+        not_started,
 
         /// <summary>
         /// The game has started.
         /// </summary>
-        Started,
+        started,
 
         /// <summary>
         /// The game is over.
         /// </summary>
-        Over,
+        over,
     };
 }

@@ -6,9 +6,6 @@
 
 namespace Minesweeper::Utils
 {
-    typedef Minesweeper::MineMap::MineMap MineMap;
-    typedef Minesweeper::MineMap::GridStatus GridStatus;
-
     /// <summary>
     /// The character of a closed grid.
     /// </summary>
@@ -29,12 +26,12 @@ namespace Minesweeper::Utils
     /// </summary>
     const std::string MINE_MARK = "*";
 
-    void OutputFormatUtils::PrintGameState(const MineMap mineMap)
+    void print_game_state(const Minesweeper::MineMap::MineMap mineMap)
     {
         std::cout << "Current game state:" << std::endl << std::endl;
 
-        const auto map = mineMap.GetMineMap();
-        const auto gridStatus = mineMap.GetGridStatus();
+        const auto map = mineMap.get_minemap();
+        const auto gridStatus = mineMap.get_grid_status();
 
         // Print Y-axis.
         const auto width = map.size();
@@ -59,17 +56,17 @@ namespace Minesweeper::Utils
             {
                 switch (gridStatus[x][y])
                 {
-                case GridStatus::Closed:
+                case Minesweeper::MineMap::GridStatus::closed:
                     std::cout << CLOSED_GRID_MARK;
                     break;
 
-                case GridStatus::Open:
+                case Minesweeper::MineMap::GridStatus::open:
                     switch (map[x][y])
                     {
-                    case MineMap::EMPTY:
+                    case Minesweeper::MineMap::MineMap::EMPTY:
                         std::cout << EMPTY_GRID_MARK;
                         break;
-                    case MineMap::MINE:
+                    case Minesweeper::MineMap::MineMap::MINE:
                         std::cout << MINE_MARK;
                         break;
                     default:
@@ -79,7 +76,7 @@ namespace Minesweeper::Utils
 
                     break;
 
-                case GridStatus::Flagged:
+                case Minesweeper::MineMap::GridStatus::flagged:
                     std::cout << FLAG_MARK;
                     break;
                 }
@@ -88,7 +85,7 @@ namespace Minesweeper::Utils
         }
     }
 
-    std::string OutputFormatUtils::GetUserInput()
+    std::string get_user_input()
     {
         std::cout << "Type \"help\", \"h\" or \"?\" to show available commands." << std::endl;
         std::cout << "> ";

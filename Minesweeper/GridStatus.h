@@ -10,16 +10,16 @@ namespace Minesweeper::MineMap
         /// <summary>
         /// Closed grid.
         /// </summary>
-        Closed,
+        closed,
 
         /// <summary>
         /// Open grid.
         /// </summary>
-        Open,
+        open,
 
         /// <summary>
         /// Flagged grid.
         /// </summary>
-        Flagged,
+        flagged,
     };
 }

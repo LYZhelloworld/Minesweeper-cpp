@@ -5,34 +5,27 @@
 #include "OutputFormatUtils.h"
 #include "Parser.h"
 
-typedef Minesweeper::MineMap::MineMap MineMap;
-typedef Minesweeper::MineMap::GameStatus GameStatus;
-typedef Minesweeper::Parsers::Parser Parser;
-typedef Minesweeper::MineMap::PositionOutOfRangeException PositionOutOfRangeException;
-typedef Minesweeper::Utils::OutputFormatUtils OutputFormatUtils;
-typedef Minesweeper::MineMap::TooManyMinesException TooManyMinesException;
-
 int main()
 {
     std::cout << "===== MINESWEEPER =====" << std::endl;
 
-    MineMap game = MineMap(10, 10, 10);
-    OutputFormatUtils::PrintGameState(game);
+    auto game = Minesweeper::MineMap::MineMap(10, 10, 10);
+    Minesweeper::Utils::print_game_state(game);
 
     for (;;)
     {
-        auto input = OutputFormatUtils::GetUserInput();
+        auto input = Minesweeper::Utils::get_user_input();
         try
         {
-            auto action = Parser::ParseAndExecute(input);
+            auto action = Minesweeper::Parsers::parse(input);
 
             try
             {
                 action(game);
 
-                if (game.GetGameStatus() == GameStatus::Over)
+                if (game.get_game_status() == Minesweeper::MineMap::GameStatus::over)
                 {
-                    if (game.IsWinning())
+                    if (game.is_winning())
                     {
                         std::cout << "===== YOU WIN =====" << std::endl;
                     }
@@ -42,11 +35,11 @@ int main()
                     }
                 }
             }
-            catch (PositionOutOfRangeException& e)
+            catch (Minesweeper::MineMap::PositionOutOfRangeException& e)
             {
                 std::cout << e.what() << std::endl;
             }
-            catch (TooManyMinesException& e)
+            catch (Minesweeper::MineMap::TooManyMinesException& e)
             {
                 std::cout << e.what() << std::endl;
             }

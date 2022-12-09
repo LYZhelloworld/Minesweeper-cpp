@@ -1,26 +1,18 @@
 #pragma once
 #include <functional>
 #include <string>
-#include <vector>
 
 namespace Minesweeper::Parsers
 {
     /// <summary>
-    /// The parser to parse user input.
+    /// The type of the callback function.
     /// </summary>
-    class Parser
-    {
-    public:
-        Parser() = delete;
-        ~Parser() = delete;
-        Parser(Parser&) = delete;
-        Parser(Parser&&) = delete;
+    using Callback = std::function<void(Minesweeper::MineMap::MineMap&)>;
 
-        /// <summary>
-        /// Parses input and executes.
-        /// </summary>
-        /// <param name="input">The input.</param>
-        /// <returns>The action from the parsed result.</returns>
-        static std::function<void(Minesweeper::MineMap::MineMap&)> ParseAndExecute(std::string input);
-    };
+    /// <summary>
+    /// Parses input and executes.
+    /// </summary>
+    /// <param name="input">The input.</param>
+    /// <returns>The action from the parsed result.</returns>
+    Callback parse(std::string input);
 }

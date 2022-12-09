@@ -6,8 +6,6 @@
 
 namespace Minesweeper::MineMap
 {
-    constexpr auto POSITION_OUT_OF_RANGE_EXCEPTION = ("The position is out of range.");
-
     MineMap::MineMap(const std::size_t width, const std::size_t height, const int mineCount)
         : m_width(width), m_height(height), m_mineCount(mineCount)
     {
@@ -17,52 +15,52 @@ namespace Minesweeper::MineMap
         }
 
         m_mineMap.resize(width, std::vector<int>(height, 0));
-        m_gridStatus.resize(width, std::vector<GridStatus>(height, GridStatus::Closed));
+        m_gridStatus.resize(width, std::vector<GridStatus>(height, GridStatus::closed));
 
-        m_gameStatus = NotStarted;
+        m_gameStatus = not_started;
     }
 
-    const std::vector<std::vector<MineMapValue>> MineMap::GetMineMap() const
+    const std::vector<std::vector<MineMapValue>> MineMap::get_minemap() const
     {
         return m_mineMap;
     }
 
-    const std::vector<std::vector<GridStatus>> MineMap::GetGridStatus() const
+    const std::vector<std::vector<GridStatus>> MineMap::get_grid_status() const
     {
         return m_gridStatus;
     }
 
-    void MineMap::Click(const Position pos)
+    void MineMap::click(const Position pos)
     {
-        if (m_gameStatus == Over)
+        if (m_gameStatus == over)
         {
             return;
         }
 
-        if (!IsValidPosition(pos))
+        if (!is_valid_position(pos))
         {
             throw PositionOutOfRangeException();
         }
 
-        if (m_gameStatus == NotStarted)
+        if (m_gameStatus == not_started)
         {
-            GenerateMines(pos);
-            m_gameStatus = Started;
+            generate_mines(pos);
+            m_gameStatus = started;
         }
 
         const auto x = pos.first;
         const auto y = pos.second;
 
-        if (m_gridStatus[x][y] != Closed)
+        if (m_gridStatus[x][y] != closed)
         {
             return;
         }
 
-        m_gridStatus[x][y] = Open;
+        m_gridStatus[x][y] = open;
 
         if (m_mineMap[x][y] == MineMap::MINE)
         {
-            m_gameStatus = Over;
+            m_gameStatus = over;
             return;
         }
 
@@ -78,28 +76,28 @@ namespace Minesweeper::MineMap
                         continue;
                     }
 
-                    if (IsValidPosition({ i, j }) && m_gridStatus[i][j] == Closed)
+                    if (is_valid_position({ i, j }) && m_gridStatus[i][j] == closed)
                     {
-                        Click({ i, j });
+                        click({ i, j });
                     }
                 }
             }
         }
 
-        if (IsWinning())
+        if (is_winning())
         {
-            m_gameStatus = Over;
+            m_gameStatus = over;
         }
     }
 
-    void MineMap::Chord(const Position pos)
+    void MineMap::chord(const Position pos)
     {
-        if (m_gameStatus == Over || m_gameStatus == NotStarted)
+        if (m_gameStatus == over || m_gameStatus == not_started)
         {
             return;
         }
 
-        if (!IsValidPosition(pos))
+        if (!is_valid_position(pos))
         {
             throw PositionOutOfRangeException();
         }
@@ -107,12 +105,12 @@ namespace Minesweeper::MineMap
         const auto x = pos.first;
         const auto y = pos.second;
 
-        if (m_gridStatus[x][y] != Open)
+        if (m_gridStatus[x][y] != open)
         {
             return;
         }
 
-        if (GetAdjacentFlags(pos) == m_mineMap[x][y])
+        if (get_adjacent_flags(pos) == m_mineMap[x][y])
         {
             // Open adjacent grids.
             for (auto i = x - 1; i <= x + 1; i++)
@@ -125,23 +123,23 @@ namespace Minesweeper::MineMap
                     }
 
                     auto pos = Position(i, j);
-                    if (IsValidPosition(pos))
+                    if (is_valid_position(pos))
                     {
-                        Click({ i, j });
+                        click({ i, j });
                     }
                 }
             }
         }
     }
 
-    void MineMap::Flag(const Position pos)
+    void MineMap::flag(const Position pos)
     {
-        if (m_gameStatus == Over)
+        if (m_gameStatus == over)
         {
             return;
         }
 
-        if (!IsValidPosition(pos))
+        if (!is_valid_position(pos))
         {
             throw PositionOutOfRangeException();
         }
@@ -149,32 +147,32 @@ namespace Minesweeper::MineMap
         const auto x = pos.first;
         const auto y = pos.second;
 
-        if (m_gridStatus[x][y] != Closed)
+        if (m_gridStatus[x][y] != closed)
         {
             return;
         }
 
-        m_gridStatus[x][y] = m_gridStatus[x][y] == Flagged ? Closed : Flagged;
+        m_gridStatus[x][y] = m_gridStatus[x][y] == flagged ? closed : flagged;
     }
 
-    const GameStatus MineMap::GetGameStatus() const noexcept
+    const GameStatus MineMap::get_game_status() const noexcept
     {
         return m_gameStatus;
     }
 
-    bool MineMap::IsWinning() const noexcept
+    bool MineMap::is_winning() const noexcept
     {
         for (auto x = 0; x < m_width; x++)
         {
             for (auto y = 0; y < m_height; y++)
             {
-                if (m_gridStatus[x][y] == Open && m_mineMap[x][y] == MineMap::MINE)
+                if (m_gridStatus[x][y] == open && m_mineMap[x][y] == MineMap::MINE)
                 {
                     // Clicked grid with mine.
                     return false;
                 }
 
-                if (m_gridStatus[x][y] != Open && m_mineMap[x][y] != MineMap::MINE)
+                if (m_gridStatus[x][y] != open && m_mineMap[x][y] != MineMap::MINE)
                 {
                     // Still got closed empty grids or wrong flags.
                     return false;
@@ -185,14 +183,14 @@ namespace Minesweeper::MineMap
         return true;
     }
 
-    void MineMap::GenerateMines(const Position clickedPos)
+    void MineMap::generate_mines(const Position clickedPos)
     {
         if (clickedPos.first >= m_width || clickedPos.second >= m_height)
         {
             throw PositionOutOfRangeException();
         }
 
-        m_gameStatus = Started;
+        m_gameStatus = started;
 
         // Generate usable positions.
         auto positions = std::vector<Position>();
@@ -229,12 +227,12 @@ namespace Minesweeper::MineMap
                     continue;
                 }
 
-                m_mineMap[x][y] = GetAdjacentMineCount({ x, y });
+                m_mineMap[x][y] = get_adjacent_mine_count({ x, y });
             }
         }
     }
 
-    int MineMap::GetAdjacentMineCount(const Position pos) const noexcept
+    int MineMap::get_adjacent_mine_count(const Position pos) const noexcept
     {
         auto count = 0;
 
@@ -248,7 +246,7 @@ namespace Minesweeper::MineMap
                     continue;
                 }
 
-                if (IsValidPosition({ x, y }))
+                if (is_valid_position({ x, y }))
                 {
                     count += m_mineMap[x][y] == MineMap::MINE ? 1 : 0;
                 }
@@ -258,7 +256,7 @@ namespace Minesweeper::MineMap
         return count;
     }
 
-    int MineMap::GetAdjacentFlags(const Position pos) const noexcept
+    int MineMap::get_adjacent_flags(const Position pos) const noexcept
     {
         auto count = 0;
 
@@ -272,9 +270,9 @@ namespace Minesweeper::MineMap
                     continue;
                 }
 
-                if (IsValidPosition({ x, y }))
+                if (is_valid_position({ x, y }))
                 {
-                    count += m_gridStatus[x][y] == Flagged ? 1 : 0;
+                    count += m_gridStatus[x][y] == flagged ? 1 : 0;
                 }
             }
         }
@@ -282,18 +280,8 @@ namespace Minesweeper::MineMap
         return count;
     }
 
-    bool MineMap::IsValidPosition(const Position pos) const noexcept
+    bool MineMap::is_valid_position(const Position pos) const noexcept
     {
         return pos.first >= 0 && pos.first < m_width&& pos.second >= 0 && pos.second < m_height;
-    }
-
-    PositionOutOfRangeException::PositionOutOfRangeException() noexcept
-        : std::exception("The position is out of range.")
-    {
-    }
-
-    TooManyMinesException::TooManyMinesException() noexcept
-        : std::exception("The mine count is greater than the map size.")
-    {
     }
 }
