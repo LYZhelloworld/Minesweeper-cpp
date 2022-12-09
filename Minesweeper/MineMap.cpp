@@ -214,22 +214,24 @@ namespace Minesweeper::MineMap
         std::ranges::shuffle(positions, std::mt19937(std::random_device()()));
 
         // Pick the positions we need.
-        std::ranges::for_each(positions | std::views::take(m_mineCount), [&](const Position& pos) {
+        std::ranges::for_each(positions | std::views::take(m_mineCount), [&](const auto& pos) {
             m_mineMap[pos.first][pos.second] = MineMap::MINE;
             });
 
         // Generate mine hints.
-        std::ranges::for_each(std::views::iota(0, (int)m_width), [&](int x) {
-            std::ranges::for_each(std::views::iota(0, (int)m_height), [&](int y) {
+        for (auto x = 0; x < m_width; x++)
+        {
+            for (auto y = 0; y < m_height; y++)
+            {
                 if (m_mineMap[x][y] == MineMap::MINE)
                 {
                     // This is a mine.
-                    return;
+                    continue;
                 }
 
-        m_mineMap[x][y] = GetAdjacentMineCount({ x, y });
-                });
-            });
+                m_mineMap[x][y] = GetAdjacentMineCount({ x, y });
+            }
+        }
     }
 
     int MineMap::GetAdjacentMineCount(const Position pos) const noexcept
