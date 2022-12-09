@@ -52,6 +52,7 @@ int main()
         {
             std::cout << "Out of range." << std::endl;
         }
-
     }
+
+    return 0;
 }

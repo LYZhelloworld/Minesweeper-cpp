@@ -1,6 +1,5 @@
 #pragma once
 #include <functional>
-#include <string>
 
 namespace Minesweeper::Parsers
 {
@@ -14,5 +13,5 @@ namespace Minesweeper::Parsers
     /// </summary>
     /// <param name="input">The input.</param>
     /// <returns>The action from the parsed result.</returns>
-    Callback parse(std::string input);
+    Callback parse(const std::string_view input);
 }

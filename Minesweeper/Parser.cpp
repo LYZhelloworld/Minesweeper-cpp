@@ -11,9 +11,9 @@
 
 namespace Minesweeper::Parsers
 {
-    Callback parse(std::string input)
+    Callback parse(const std::string_view input)
     {
-        auto tokens_view = std::string_view(input)
+        auto tokens_view = input
             | std::views::split(std::string_view(" "))
             | std::views::transform([](auto range) { return std::string_view(range.begin(), range.end()); })
             | std::views::filter([](auto str) { return !str.empty(); });
@@ -49,7 +49,7 @@ namespace Minesweeper::Parsers
             auto [width, height, mineCount] = std::tuple{ std::stoi(tokens[1].data()), std::stoi(tokens[2].data()), std::stoi(tokens[3].data()) };
 
             return [width, height, mineCount](auto& mineMap) {
-                mineMap = { width, height, mineCount };
+                mineMap = Minesweeper::MineMap::MineMap(width, height, mineCount);
                 Minesweeper::Utils::print_game_state(mineMap);
             };
         }

@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <ranges>
 #include <string>
 
 #include "OutputFormatUtils.h"
@@ -93,16 +94,8 @@ namespace Minesweeper::Utils
         std::getline(std::cin, line);
 
         // Trim string.
-        line.erase(line.begin(), std::find_if(line.begin(), line.end(), [](auto c) {
-            return !std::isspace(c);
-            }));
-        line.erase(std::find_if(line.rbegin(), line.rend(), [](auto c) {
-            return !std::isspace(c);
-            }).base(), line.end());
+        auto trimmed_input = std::string_view(line) | std::views::drop_while(std::isspace) | std::views::reverse | std::views::drop_while(std::isspace) | std::views::reverse;
 
-        // To lowercase.
-        std::transform(line.begin(), line.end(), line.begin(), std::tolower);
-
-        return line;
+        return std::string(trimmed_input.begin(), trimmed_input.end());
     }
 }
