@@ -18,34 +18,38 @@ int main()
 
     MineMap game = MineMap(10, 10, 10);
     OutputFormatUtils::PrintGameState(game);
-    
+
     for (;;)
     {
         auto input = OutputFormatUtils::GetUserInput();
-        auto action = Parser::ParseAndExecute(input);
         try
         {
-            action(game);
+            auto action = Parser::ParseAndExecute(input);
 
-            if (game.GetGameStatus() == GameStatus::Over)
+            try
             {
-                if (game.IsWinning())
+                action(game);
+
+                if (game.GetGameStatus() == GameStatus::Over)
                 {
-                    std::cout << "===== YOU WIN =====" << std::endl;
-                }
-                else
-                {
-                    std::cout << "===== YOU LOSE =====" << std::endl;
+                    if (game.IsWinning())
+                    {
+                        std::cout << "===== YOU WIN =====" << std::endl;
+                    }
+                    else
+                    {
+                        std::cout << "===== YOU LOSE =====" << std::endl;
+                    }
                 }
             }
-        }
-        catch (PositionOutOfRangeException& e)
-        {
-            std::cout << e.what() << std::endl;
-        }
-        catch (TooManyMinesException e)
-        {
-            std::cout << e.what() << std::endl;
+            catch (PositionOutOfRangeException& e)
+            {
+                std::cout << e.what() << std::endl;
+            }
+            catch (TooManyMinesException& e)
+            {
+                std::cout << e.what() << std::endl;
+            }
         }
         catch (std::invalid_argument&)
         {
@@ -55,5 +59,6 @@ int main()
         {
             std::cout << "Out of range." << std::endl;
         }
+
     }
 }

@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <iostream>
+#include <ranges>
 #include <stdexcept>
+#include <string>
 
 #include "MineMap.h"
 #include "OutputFormatUtils.h"
@@ -14,36 +16,18 @@ namespace Minesweeper::Parsers
     typedef Minesweeper::MineMap::TooManyMinesException TooManyMinesException;
     typedef Minesweeper::Utils::OutputFormatUtils OutputFormatUtils;
 
-    /// <summary>
-    /// Splits a <see cref="std::string"/> into a <see cref="std::vector"/> of <see cref="std::string"/>s.
-    /// </summary>
-    /// <param name="str">The <see cref="std::string"/> to split.</param>
-    /// <param name="delim">The delimiter.</param>
-    /// <returns>The <see cref="std::vector"/> of <see cref="std::string"/>s.</returns>
-    std::vector<std::string> split(const std::string str, const char delim)
-    {
-        std::vector<std::string> result{ std::string() };
-        std::for_each(str.begin(), str.end(), [&result, &delim](char c)
-            {
-                if (c == delim)
-                {
-                    result.push_back(std::string());
-                }
-                else
-                {
-                    result[result.size() - 1] = result[result.size() - 1] + c;
-                }
-            });
-        return result;
-    }
-
     std::function<void(MineMap&)> Parser::ParseAndExecute(std::string input)
     {
-        std::vector<std::string> tokensWithEmpty = split(input, ' ');
-        std::vector<std::string> tokens;
-        std::copy_if(tokensWithEmpty.begin(), tokensWithEmpty.end(), std::back_inserter(tokens), [](std::string s) {
-            return !s.empty();
-            });
+        auto tokens_view = std::string_view(input)
+            | std::views::split(std::string_view(" "))
+            | std::views::transform([](auto range) { return std::string_view(range.begin(), range.end()); })
+            | std::views::filter([](auto str) { return !str.empty(); });
+
+        std::vector<std::string_view> tokens;
+        for (auto token : tokens_view)
+        {
+            tokens.push_back(token);
+        }
 
         if (tokens.size() < 1)
         {
@@ -52,12 +36,13 @@ namespace Minesweeper::Parsers
             };
         }
 
-        std::for_each(tokens.begin(), tokens.end(), [](std::string str) {
-            std::transform(str.begin(), str.end(), str.begin(), std::tolower);
-            });
         const auto& cmd = tokens[0];
+        auto iequals = [](const std::string_view lhs, const std::string_view rhs) -> bool
+        {
+            return std::ranges::equal(lhs | std::views::transform(std::tolower), rhs | std::views::transform(std::tolower));
+        };
 
-        if (cmd == "new" || cmd == "n")
+        if (iequals(cmd, "new") || iequals(cmd, "n"))
         {
             if (tokens.size() != 4)
             {
@@ -66,12 +51,14 @@ namespace Minesweeper::Parsers
                 };
             }
 
-            return [tokens = std::move(tokens)](MineMap& mineMap) {
-                mineMap = MineMap(std::stoi(tokens[1]), std::stoi(tokens[2]), std::stoi(tokens[3]));
+            auto [width, height, mineCount] = std::tuple{ std::stoi(tokens[1].data()), std::stoi(tokens[2].data()), std::stoi(tokens[3].data()) };
+
+            return [width, height, mineCount](MineMap& mineMap) {
+                mineMap = MineMap(width, height, mineCount);
                 OutputFormatUtils::PrintGameState(mineMap);
             };
         }
-        else if (cmd == "click" || cmd == "c")
+        else if (iequals(cmd, "click") || iequals(cmd, "c"))
         {
             if (tokens.size() != 3)
             {
@@ -80,12 +67,14 @@ namespace Minesweeper::Parsers
                 };
             }
 
-            return [tokens = std::move(tokens)](MineMap& mineMap) {
-                mineMap.Click(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
+            auto [x, y] = std::tuple{ std::stoi(tokens[1].data()), std::stoi(tokens[2].data()) };
+
+            return [x, y](MineMap& mineMap) {
+                mineMap.Click(Position(x, y));
                 OutputFormatUtils::PrintGameState(mineMap);
             };
         }
-        else if (cmd == "flag" || cmd == "f")
+        else if (iequals(cmd, "flag") || iequals(cmd, "f"))
         {
             if (tokens.size() != 3)
             {
@@ -94,12 +83,14 @@ namespace Minesweeper::Parsers
                 };
             }
 
-            return [tokens = std::move(tokens)](MineMap& mineMap) {
-                mineMap.Flag(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
+            auto [x, y] = std::tuple{ std::stoi(tokens[1].data()), std::stoi(tokens[2].data()) };
+
+            return [x, y](MineMap& mineMap) {
+                mineMap.Flag(Position(x, y));
                 OutputFormatUtils::PrintGameState(mineMap);
             };
         }
-        else if (cmd == "chord" || cmd == "x")
+        else if (iequals(cmd, "chord") || iequals(cmd, "x"))
         {
             if (tokens.size() != 3)
             {
@@ -108,12 +99,14 @@ namespace Minesweeper::Parsers
                 };
             }
 
-            return [tokens = std::move(tokens)](MineMap& mineMap) {
-                mineMap.Chord(Position(std::stoi(tokens[1]), std::stoi(tokens[2])));
+            auto [x, y] = std::tuple{ std::stoi(tokens[1].data()), std::stoi(tokens[2].data()) };
+
+            return [x, y](MineMap& mineMap) {
+                mineMap.Chord(Position(x, y));
                 OutputFormatUtils::PrintGameState(mineMap);
             };
         }
-        else if (cmd == "help" || cmd == "h" || cmd == "?")
+        else if (iequals(cmd, "help") || iequals(cmd, "h") || iequals(cmd, "?"))
         {
             return [](MineMap& _) {
                 std::cout << "{new|n} width height : Start new game." << std::endl
@@ -124,7 +117,7 @@ namespace Minesweeper::Parsers
                     << "{exit|quit|q} : Exit.";
             };
         }
-        else if (cmd == "exit" || cmd == "quit" || cmd == "q")
+        else if (iequals(cmd, "exit") || iequals(cmd, "quit") || iequals(cmd, "q"))
         {
             return [](MineMap& _) {
                 exit(0);
